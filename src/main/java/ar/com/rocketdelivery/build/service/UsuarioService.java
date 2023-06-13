@@ -37,8 +37,9 @@ public class UsuarioService {
 
     }
 
-//    public void editarUsuario(Usuario usuario, String username, String password){
-//        usuari.ge
-//        usuarioDao.findAllById()
-//    }
+    public void cambiarContraseña(String username, String password){
+       Usuario u = usuarioDao.findByUsername(username);
+       u.setPassword(password);
+       usuarioDao.save(u);
+    }
 }

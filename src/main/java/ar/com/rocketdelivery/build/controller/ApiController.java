@@ -25,46 +25,80 @@ public class ApiController {
     private UsuarioService usuarioService;
     // -----------------------------------------------------------------------------------//
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hola, mundo!";
-    }
-
-    @GetMapping("/crearUsuario")
+    @PostMapping("/crearUsuario")
     public void crearUsuario(String username, String password) {
         //Reemplazar argumentos como corresponde
         usuarioService.crearUsuario("user", "123");
     }
-
-    @GetMapping("/crearContacto")
+    
+    @PostMapping("/cambiar-contraseña")
+    public void cambiarContraseña(String username, String password){
+        usuarioService.cambiarContraseña(username, password);
+    }
+    
+    @PostMapping("/crearContacto")
     public void crearContacto(String nombre, String apellido, String email, String telefono, String direccion, Long idUsuario) {
         // Reemplazar argumentos como corresponde 
         contactoService.crearContacto("Nazareno", "Lorenzatti", "nl.loragro@gmail.com",
                 "3466404290", "Lisandro de la torre 124", usuarioService.buscarUsuario(Long.valueOf(2)));
     }
-
-    @GetMapping("/crearIngrediente")
-    public void crearIngrediente(String nombreIngrediente, String descripcion, String link, double cantidadStock) {
-        // ESTO CREA EL INGREDIENTE Y ESTABLECE EL STOCK DEL MISMO
-        // Reemplazar argumentos como corresponde 
-        ingredienteService.crearIngrediente("Harina", "Harina por Kg", "Link a la imagen de papas", 100);
+    
+    @PostMapping("/editar-contacto")
+    public void editarContact(String idContacto, String nombre, String apellido, String email, String telefono, String direccion){
+        contactoService.actualizarContacto(contactoService.buscarPorId(idContacto), nombre, apellido, email, telefono, direccion);
     }
 
+    @PostMapping("/crearIngrediente")
+    public void crearIngrediente(String nombreIngrediente, String descripcion, String link, double cantidadStock) {
+        // ESTO CREA EL INGREDIENTE Y ESTABLECE EL STOCK DEL MISMO
+        ingredienteService.crearIngredienteStock(nombreIngrediente, descripcion, link, cantidadStock);
+    }
+    
+    @PostMapping("/editarIngrediente")
+    public void editarIngrediente(String idIngrediente, String nombreIngrediente, String descripcion, String link) {
+        ingredienteService.actualizarIngredienteStock(idIngrediente, nombreIngrediente, descripcion, link);
+    }
+    
+    @PostMapping("/actualizar-cantidad")
+    public void actualizarCantidad(String idIngrediente, double cantidad){
+        ingredienteService.actualizarCantidadStock(idIngrediente, cantidad);
+    }
+    
+    @PostMapping("/crear-menu")
+    public void crearMenu(String nombreMenu, String descripcion_menu, double precio, String [][] ingredientesSeleccionados, String linkImagen){
+        menuService.crearMenu(nombreMenu, descripcion_menu, precio, ingredientesSeleccionados, linkImagen);
+    }
+    
+
+    @GetMapping("/listar-contactos")
+    public List<Contacto> getContactos() {
+        return contactoService.listarContactos();
+    }
+    
+    @GetMapping("/listar-menus")
+    public List<Menu> getMenus(){
+        return menuService.listarMenus();
+    }
+
+
+    @GetMapping("/listar-pedidos")
+    public List<Pedido> getPedidos() {
+        return pedidoService.listarPedidos();
+    }
+
+    @GetMapping("/listar-stock")
+    public List<IngredienteStock> getStock() {
+        return ingredienteService.listarIngredientesEnStock();
+    }
+
+    @GetMapping("/actualizar-disponibilidad")
+    public void actualizarStock() {
+        menuService.actualizarDisponibilidad();
+    }
+    
     // ----------------- PRUEBAS -------------------- Ignorar de momento o probar como prefieran
     @GetMapping("/pruebaCliente")
     public String prueba() {
-
-        List<IngredienteStock> listaDeIngredientesSeleccionados = new ArrayList();
-        List<IngredienteEnMenu> ingredientesDelMenu = new ArrayList();
-
-        listaDeIngredientesSeleccionados.add(ingredienteService.buscarIngredientePorNombre("Papa"));
-        listaDeIngredientesSeleccionados.add(ingredienteService.buscarIngredientePorNombre("Harina"));
-
-        for (IngredienteStock iS : listaDeIngredientesSeleccionados) {
-            ingredientesDelMenu.add(ingredienteService.ingredienteMenu(15.0, iS));
-        }
-
-        System.out.println(menuService.crearMenu("Ñoquis", "ñoquis de papa", 1000.0, ingredientesDelMenu, "Link a la imagen del menu papas fritas"));
 
         List<Menu> menusDelPedido = new ArrayList();
         menusDelPedido.add(menuService.buscarMenuPorNombre("Papas Fritas"));
@@ -82,28 +116,5 @@ public class ApiController {
     }
     // ------------------------  //
     
-         @GetMapping("/listar-menus")
-        public List<Menu>  getMenus(){
-            return  menuService.listaMenus();
-     }
-
-    @GetMapping("/listar-contactos")
-    public List<Contacto> getMenus() {
-        return contactoService.listarContactos();
-    }
-
-    @GetMapping("/listar-pedidos")
-    public List<Pedido> getPedidos() {
-        return pedidoService.listarPedidos();
-    }
-
-    @GetMapping("/listar-stock")
-    public List<IngredienteStock> getStock() {
-        return ingredienteService.listarIngredientesEnStock();
-    }
-
-    @GetMapping("/actualizar-disponibilidad")
-    public void actualizarStock() {
-        menuService.actualizarDisponibilidad();
-    }
+   
 }

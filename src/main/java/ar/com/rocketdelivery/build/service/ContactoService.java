@@ -20,6 +20,10 @@ public class ContactoService {
         return contactoDao.findAll();
     }
     
+    public Contacto buscarPorId(String id){
+        return contactoDao.findById(Long.parseLong(id)).get();
+    }
+    
     public Contacto buscarPorNombre(String nombre){
         return contactoDao.findByNombre(nombre);
     }

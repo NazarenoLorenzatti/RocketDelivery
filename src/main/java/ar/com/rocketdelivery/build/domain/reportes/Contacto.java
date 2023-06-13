@@ -32,7 +32,7 @@ public class Contacto implements Serializable {
 
     @NotEmpty
     private String direccion;
-    
+
     @OneToOne
     @JoinColumn(name = "usuario_id_usuario")
     private Usuario usuario;
@@ -40,7 +40,6 @@ public class Contacto implements Serializable {
 //    @OneToMany
 //    @JoinColumn(name = "contacto_id_contacto")
 //    private List<Pedido> pedidos;
-
     public Contacto(String nombre, String apellido, String email, String telefono, String direccion, Usuario usuario) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -52,6 +51,5 @@ public class Contacto implements Serializable {
 
     public Contacto() {
     }
-    
-    
+
 }

@@ -23,6 +23,10 @@ public class IngredienteService {
         return ingredienteStockDao.findAll();
     }
 
+    public IngredienteStock buscarIngredientePorId(String idIngrediente) {
+        return ingredienteStockDao.findById(Long.parseLong(idIngrediente)).get();
+    }
+
     public IngredienteStock buscarIngredientePorNombre(String nombreIngrediente) {
         return ingredienteStockDao.findByNombreIngrediente(nombreIngrediente);
     }
@@ -31,21 +35,28 @@ public class IngredienteService {
         ingredienteStockDao.delete(ingredienteStock);
     }
 
-    public void crearIngrediente(String nombreIngrediente, String descripcion_ingrediente, String imagen_ingrediente, double cantidadStock) {
+    public void crearIngredienteStock(String nombreIngrediente, String descripcion_ingrediente, String imagen_ingrediente, double cantidadStock) {
         if (ingredienteStockDao.findByNombreIngrediente(nombreIngrediente) == null) {
             IngredienteStock i = new IngredienteStock(cantidadStock, nombreIngrediente, descripcion_ingrediente, imagen_ingrediente);
             ingredienteStockDao.save(i);
         }
     }
 
-    public void actualizarIngrediente(IngredienteStock ingredienteEnStock, String nombreIngrediente, String descripcion_ingrediente, String imagen_ingrediente) {
-        ingredienteEnStock.setNombreIngrediente(nombreIngrediente);
-        ingredienteEnStock.setDescripcionIngrediente(descripcion_ingrediente);
-        ingredienteEnStock.setImagenIngrediente(imagen_ingrediente);
-        ingredienteStockDao.save(ingredienteEnStock);
+    public void actualizarIngredienteStock(String idIngrediente, String nombreIngrediente, String descripcion_ingrediente, String imagen_ingrediente) {
+        IngredienteStock i = ingredienteStockDao.findById(Long.parseLong(idIngrediente)).get();
+        i.setNombreIngrediente(nombreIngrediente);
+        i.setDescripcionIngrediente(descripcion_ingrediente);
+        i.setImagenIngrediente(imagen_ingrediente);
+        ingredienteStockDao.save(i);
     }
-    
-    public IngredienteEnMenu ingredienteMenu(double cantidad, IngredienteStock ingredienteEnStock){
+
+    public void actualizarCantidadStock(String idIngrediente, double cantidadNueva) {
+        IngredienteStock i = ingredienteStockDao.findById(Long.parseLong(idIngrediente)).get();
+        i.setCantidadStock(cantidadNueva);
+        ingredienteStockDao.save(i);
+    }
+
+    public IngredienteEnMenu ingredienteMenu(double cantidad, IngredienteStock ingredienteEnStock) {
         IngredienteEnMenu i = new IngredienteEnMenu();
         i.setCantidad(cantidad);
         i.setIngredienteEnStock(ingredienteEnStock);
