@@ -81,9 +81,14 @@ public class ApiController {
         return "Hola, mundo!";
     }
     // ------------------------  //
+     @GetMapping("/listar-menus")
+        public List<Menu>  getMenus(){
+            return  menuService.listaMenus();
+     }
+     
 
     @GetMapping("/listar-contactos")
-    public List<Contacto> getMenus() {
+    public List<Contacto> getContactos() {
         return contactoService.listarContactos();
     }
 
