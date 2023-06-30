@@ -1,15 +1,18 @@
 package ar.com.rocketdelivery.build.domain.usuario;
 
+import ar.com.rocketdelivery.build.security.Authority;
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 @Data
 @Entity
 @Table(name = "usuario")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +38,36 @@ public class Usuario implements Serializable {
 
     public Usuario() {
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Authority> autoridades = new HashSet<>();
+        this.roles.forEach(rol -> {
+            autoridades.add(new Authority(rol.getNombre_rol()));
+        });
+        return autoridades;
+    }
     
+      @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     
     
 }

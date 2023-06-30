@@ -49,9 +49,17 @@ public class IngredienteService {
         i.setImagenIngrediente(imagen_ingrediente);
         ingredienteStockDao.save(i);
     }
+    
+        public void actualizarIngredienteStock(Long idIngrediente, String nombreIngrediente, String descripcion_ingrediente, String imagen_ingrediente) {
+        IngredienteStock i = ingredienteStockDao.findById(idIngrediente).get();
+        i.setNombreIngrediente(nombreIngrediente);
+        i.setDescripcionIngrediente(descripcion_ingrediente);
+        i.setImagenIngrediente(imagen_ingrediente);
+        ingredienteStockDao.save(i);
+    }
 
-    public void actualizarCantidadStock(String idIngrediente, double cantidadNueva) {
-        IngredienteStock i = ingredienteStockDao.findById(Long.parseLong(idIngrediente)).get();
+    public void actualizarCantidadStock(Long idIngrediente, double cantidadNueva) {
+        IngredienteStock i = ingredienteStockDao.findById(idIngrediente).get();
         i.setCantidadStock(cantidadNueva);
         ingredienteStockDao.save(i);
     }

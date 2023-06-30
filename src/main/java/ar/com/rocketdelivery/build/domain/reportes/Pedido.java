@@ -1,7 +1,6 @@
 package ar.com.rocketdelivery.build.domain.reportes;
 
 import ar.com.rocketdelivery.build.domain.inventario.Menu;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -2,8 +2,6 @@ package ar.com.rocketdelivery.build.domain.inventario;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.*;
-import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Entity

@@ -3,7 +3,6 @@ package ar.com.rocketdelivery.build.domain.reportes;
 import ar.com.rocketdelivery.build.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 

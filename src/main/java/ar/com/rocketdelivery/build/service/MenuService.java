@@ -27,6 +27,14 @@ public class MenuService {
     public List<Menu> listarMenus() {
         return menuDao.findAll();
     }
+    
+    public List<Menu> listarMenusPorId(List<String> listaId) {
+        List<Menu> lista = new ArrayList();
+        for (String id : listaId){
+            lista.add(menuDao.findById(Long.valueOf(id)).get());
+        }
+        return lista;
+    }
 
     public Menu buscarMenuPorNombre(String nombreMenu) {
         return menuDao.findByNombreMenu(nombreMenu);
