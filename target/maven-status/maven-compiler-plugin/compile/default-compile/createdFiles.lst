@@ -3,6 +3,7 @@ ar\com\rocketdelivery\build\security\UserDetailsServiceImp.class
 ar\com\rocketdelivery\build\service\UsuarioService.class
 ar\com\rocketdelivery\build\config\JwtUtils.class
 ar\com\rocketdelivery\build\EncriptarPassword.class
+ar\com\rocketdelivery\build\util\EscritorXLS.class
 ar\com\rocketdelivery\build\config\JksProperties.class
 ar\com\rocketdelivery\build\domain\inventario\Menu.class
 ar\com\rocketdelivery\build\security\JwtUtil.class
@@ -16,11 +17,11 @@ ar\com\rocketdelivery\build\Dao\iUsuarioDao.class
 ar\com\rocketdelivery\build\service\IngredienteService.class
 ar\com\rocketdelivery\build\domain\reportes\Estado.class
 ar\com\rocketdelivery\build\config\ApplicationConfig.class
+ar\com\rocketdelivery\build\service\utilidades.class
 ar\com\rocketdelivery\build\config\JwtConfig.class
 ar\com\rocketdelivery\build\Dao\iContactoDao.class
 ar\com\rocketdelivery\build\domain\reportes\Contacto.class
 ar\com\rocketdelivery\build\Dao\iMenuDao.class
-ar\com\rocketdelivery\build\domain\Json\JwtRequest.class
 ar\com\rocketdelivery\build\security\Authority.class
 ar\com\rocketdelivery\build\controller\LoginController.class
 ar\com\rocketdelivery\build\Dao\iRolesDao.class

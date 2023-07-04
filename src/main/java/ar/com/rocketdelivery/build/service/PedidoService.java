@@ -3,9 +3,13 @@ package ar.com.rocketdelivery.build.service;
 import ar.com.rocketdelivery.build.Dao.*;
 import ar.com.rocketdelivery.build.domain.inventario.*;
 import ar.com.rocketdelivery.build.domain.reportes.*;
+import ar.com.rocketdelivery.build.util.EscritorXLS;
 import jakarta.transaction.Transactional;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 import lombok.Data;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,12 +54,12 @@ public class PedidoService {
     }
 
     @Transactional
-    public void establecerEnProgreso(Pedido pedido, List<Menu> menus) {
+    public void establecerEnProgreso(Pedido pedido) {
 
         pedido.setEstado(estadoDao.findById(Long.valueOf(2)).get());
 
         // Recorre La lista de menus del pedido
-        for (Menu m : menus) {
+        for (Menu m : pedido.getMenus()) {
             List<IngredienteEnMenu> ingredientes = m.getIngredientesEnMenu();
 
             // Por cada Menu Recorre el ingrediente y resta la cantidad al stock
@@ -74,12 +78,12 @@ public class PedidoService {
     }
 
     @Transactional
-    public void establecerCancelado(Pedido pedido, List<Menu> menus) {
+    public void establecerCancelado(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
             pedido.setEstado(estadoDao.findById(Long.valueOf(6)).get());
 
             // Recorre La lista de menus del pedido
-            for (Menu m : menus) {
+            for (Menu m : pedido.getMenus()) {
                 List<IngredienteEnMenu> ingredientes = m.getIngredientesEnMenu();
 
                 // Por cada Menu Recorre el ingrediente y resta la cantidad al stock
@@ -109,5 +113,42 @@ public class PedidoService {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
             pedido.setEstado(estadoDao.findById(Long.valueOf(5)).get());
         }
+    }
+
+    public ByteArrayOutputStream reportePedidos() {
+
+        List<List<String>> filas = new ArrayList();
+        List<String> cabeceros = Arrays.asList("ID del Pedido", "Cliente", "Estado", "Monto del Pedido",
+                "Menus del Pedido");
+
+        for (Pedido p : pedidoDao.findAll()) {
+            double monto = 0.0;
+            List<String> fila = new ArrayList();
+            fila.add(p.getIdPedido().toString());
+            fila.add(p.getContacto().getNombre() + p.getContacto().getApellido());
+            fila.add(p.getEstado().getNombreEstado());
+
+            for (Menu m : p.getMenus()) {
+                monto += m.getPrecio();
+            }
+
+            fila.add(String.valueOf(monto));
+
+            for (Menu m : p.getMenus()) {
+                fila.add(m.getNombreMenu());
+            }
+
+            filas.add(fila);
+        }
+
+        var escritorXLS = new EscritorXLS(filas, cabeceros);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            escritorXLS.exportar().write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outputStream;
     }
 }

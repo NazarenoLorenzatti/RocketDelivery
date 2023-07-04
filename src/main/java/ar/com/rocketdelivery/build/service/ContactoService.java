@@ -1,8 +1,15 @@
 package ar.com.rocketdelivery.build.service;
 
 import ar.com.rocketdelivery.build.Dao.iContactoDao;
+import ar.com.rocketdelivery.build.domain.inventario.Menu;
 import ar.com.rocketdelivery.build.domain.reportes.Contacto;
+import ar.com.rocketdelivery.build.domain.reportes.Pedido;
 import ar.com.rocketdelivery.build.domain.usuario.Usuario;
+import ar.com.rocketdelivery.build.util.EscritorXLS;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.Data;
@@ -44,13 +51,38 @@ public class ContactoService {
         contactoDao.delete(contacto);
     }
     
-    public void actualizarContacto(Contacto contactoId, String nombre, String apellido, String email, String telefono, String direccion){
-        Optional<Contacto> c = contactoDao.findById(contactoId.getIdContacto());
-        Contacto contacto = c.get();
-        contacto.setNombre(nombre);
-        contacto.setApellido(apellido);
-        contacto.setEmail(email);
-        contacto.setTelefono(telefono);
-        contacto.setDireccion(direccion);
+    public void actualizarContacto(Contacto contacto){
+        Optional<Contacto> cOpt = contactoDao.findById(contacto.getIdContacto());
+        Contacto c = cOpt.get();
+        contacto.setNombre(c.getNombre());
+        contacto.setApellido(c.getApellido());
+        contacto.setEmail(c.getEmail());
+        contacto.setTelefono(c.getTelefono());
+        contacto.setDireccion(c.getDireccion());
+        contactoDao.save(c);
+    }
+    
+    public ByteArrayOutputStream reporteClientes() {
+        List<List<String>> filas = new ArrayList();
+        List<String> cabeceros = Arrays.asList("ID", "Cliente", "Email", "Telefono",
+                "Direccion");
+
+        for (Contacto c : contactoDao.findAll()) {
+            List<String> fila = new ArrayList();
+            fila.add(c.getIdContacto().toString());
+            fila.add(c.getNombre() +" "+ c.getApellido());
+            fila.add(c.getEmail());
+            fila.add(c.getTelefono());
+            fila.add(c.getDireccion());
+        }
+
+        var escritorXLS = new EscritorXLS(filas, cabeceros);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            escritorXLS.exportar().write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outputStream;
     }
 }
