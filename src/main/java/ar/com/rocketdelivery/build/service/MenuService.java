@@ -48,29 +48,15 @@ public class MenuService {
         menuDao.delete(menu);
     }
 
-    public String crearMenu(String nombreMenu, String descripcion_menu, Double precio, String[][] ingredientesSeleccionados, String imagen_menu) {
-        List<IngredienteStock> listaDeIngredientesSeleccionados = new ArrayList();
-        List<IngredienteEnMenu> ingredientesDelMenu = new ArrayList();
-        
-        for (int i=0; i > ingredientesSeleccionados.length ; i++) {
-            IngredienteStock ing = ingredienteStockDao.findById(Long.parseLong(ingredientesSeleccionados[i][0])).get();
-            listaDeIngredientesSeleccionados.add(ing);
-        }
+    public String crearMenu(Menu menu, List<IngredienteEnMenu> ingredientesEnMenu) {
 
-        for (IngredienteStock iS : listaDeIngredientesSeleccionados) {
-            int i = 0;
-            String cantidadStr = ingredientesSeleccionados[1][i];
-            double cantidad = Double.parseDouble(cantidadStr);
-            ingredientesDelMenu.add(ingredienteService.ingredienteMenu(cantidad, iS));
-            i++;
-        }
+        if (menuDao.findByNombreMenu(menu.getNombreMenu()) == null) {
+            Menu m = new Menu(menu.getNombreMenu(), menu.getDescripcion_menu(), menu.getPrecio(), menu.getImagen_menu());
+            m.setIngredientesEnMenu(menu.getIngredientesEnMenu());
+            
+            for (IngredienteEnMenu iM : menu.getIngredientesEnMenu()) {
 
-        if (menuDao.findByNombreMenu(nombreMenu) == null) {
-            Menu m = new Menu(nombreMenu, descripcion_menu, precio, imagen_menu);
-            m.setIngredientesEnMenu(ingredientesDelMenu);
-            for (IngredienteEnMenu iM : ingredientesDelMenu) {
-
-                IngredienteStock iStock = ingredienteStockDao.findByNombreIngrediente(iM.getIngredienteEnStock().getNombreIngrediente());
+                IngredienteStock iStock = ingredienteStockDao.findById(iM.getIngredienteEnStock().getIdIngredienteStock()).get();
 
                 if (iM.getCantidad() > iStock.getCantidadStock()) {
                     m.setDisponible(false);
@@ -80,7 +66,7 @@ public class MenuService {
             return "MENU :" + m.getNombreMenu() + " CREADO";
         } else {
 
-            return " El MENU :" + nombreMenu + " YA EXISTE";
+            return " El MENU :" + menu.getNombreMenu() + " YA EXISTE";
         }
 
     }

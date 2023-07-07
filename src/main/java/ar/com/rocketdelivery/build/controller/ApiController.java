@@ -1,10 +1,10 @@
 package ar.com.rocketdelivery.build.controller;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+//import org.apache.poi.ss.usermodel.*;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,27 +38,13 @@ public class ApiController {
     private UsuarioService usuarioService;
     // -----------------------------------------------------------------------------------//
 
-    @PostMapping("/editar-contacto")
-    public void editarContact(@RequestBody Contacto contacto) throws Exception {
-        contactoService.actualizarContacto(contacto);
+    @PostMapping("/crear-contacto")
+    public void crearContacto(@RequestBody Contacto contacto) throws Exception {
+        contactoService.crearContacto(contacto.getNombre(), contacto.getApellido(), contacto.getEmail(),
+                contacto.getTelefono(), contacto.getDireccion(), usuarioService.buscarUsuario(contacto.getUsuario().getIdUsuario()));
     }
 
-    @PostMapping("/cambiar-contraseña")
-    public void cambiarContraseña(String username, String password) throws Exception {
-        usuarioService.cambiarContraseña(username, password);
-    }
-
-    @GetMapping("/buscar-ususario/{username}")
-    public Usuario obtenerUsuario(@PathVariable("username") String username) {
-        return usuarioService.buscarUsuario(username);
-    }
-
-    @DeleteMapping("/eliminar-ususario/{usuarioId}")
-    public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId) {
-        usuarioService.eliminarUsuario(usuarioId);
-    }
-
-    @PostMapping("/crearIngrediente")
+    @PostMapping("/crear-ingrediente")
     public void crearIngrediente(@RequestBody IngredienteStock ingredienteEnStock) {
         ingredienteService.crearIngredienteStock(ingredienteEnStock.getNombreIngrediente(),
                 ingredienteEnStock.getDescripcionIngrediente(), ingredienteEnStock.getImagenIngrediente(),
@@ -66,7 +52,20 @@ public class ApiController {
         actualizarStock();
     }
 
-    @PostMapping("/editarIngrediente")
+    @PostMapping("/crear-menu")
+    public void crearMenu(@RequestBody Menu menu) {
+        menuService.crearMenu(menu, menu.getIngredientesEnMenu());
+        actualizarStock();
+    }
+
+    @PostMapping("/crear-pedido")
+    public void crearPedido(@RequestBody Pedido pedido) {
+        pedidoService.crearPedido(pedido.getMenus(), contactoService.buscarPorId(pedido.getContacto().getIdContacto()));
+        actualizarStock();
+    }
+
+    // ENDPOINTS PARA EDITAR 
+    @PostMapping("/editar-ingrediente")
     public void editarIngrediente(@RequestBody IngredienteStock ingredienteEnStock) {
         ingredienteService.actualizarIngredienteStock(ingredienteEnStock.getIdIngredienteStock(),
                 ingredienteEnStock.getNombreIngrediente(), ingredienteEnStock.getDescripcionIngrediente(),
@@ -74,17 +73,52 @@ public class ApiController {
         actualizarStock();
     }
 
+    @PostMapping("/editar-contacto")
+    public void editarContact(@RequestBody Contacto contacto) throws Exception {
+        contactoService.actualizarContacto(contacto);
+    }
+
+    @PostMapping("/cambiar-contraseña")
+    public void cambiarContraseña(@RequestBody Usuario usuario) throws Exception {
+        usuarioService.cambiarContraseña(usuario.getUsername(), usuario.getPassword());
+    }
+
+    @DeleteMapping("/eliminar-ususario/{usuarioId}")
+    public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId) {
+        usuarioService.eliminarUsuario(usuarioId);
+    }
+
+    // ACTUALIZAR CANTIDAD DE INGREDIENTES EN STOCK ----------------------------
     @PostMapping("/actualizar-cantidad")
-    public void actualizarCantidad(@RequestBody IngredienteStock ingredienteEnStock, double cantidad) {
-        ingredienteService.actualizarCantidadStock(ingredienteEnStock.getIdIngredienteStock(), cantidad);
+    public void actualizarCantidad(@RequestBody IngredienteStock ingredienteEnStock) {
+        ingredienteService.actualizarCantidadStock(ingredienteEnStock.getIdIngredienteStock(), ingredienteEnStock.getCantidadStock());
+    }
+    
+    //--------------------------------------------------------------------------
+    // ESTADOS DEL PEDIDO
+    @PostMapping("/en-progreso")
+    public void establecerEnProgreso(@RequestBody Pedido pedido) {
+        pedidoService.establecerEnProgreso(pedido);
     }
 
-    @PostMapping("/crear-menu")
-    public void crearMenu(@RequestBody Menu menu, String[][] ingredientesSeleccionados) {
-        menuService.crearMenu(menu.getNombreMenu(), menu.getDescripcion_menu(), menu.getPrecio(), ingredientesSeleccionados, menu.getImagen_menu());
-        actualizarStock();
+    @PostMapping("/entregado")
+    public void establecerEntregado(@RequestBody Pedido pedido) {
+        pedidoService.establecerEntregado(pedido);
     }
 
+    @PostMapping("/cancelado")
+    public void establecerCancelado(@RequestBody Pedido pedido) {
+        pedidoService.establecerCancelado(pedido);
+    }
+
+    @PostMapping("/listo-para-entrega")
+    public void listoParaEntregar(@RequestBody Pedido pedido) {
+        pedidoService.establecerListoParaEntregar(pedido);
+    }
+
+    //--------------------------------------------------------------------------
+
+    // ENPOINTS PARA LISTAR 
     @GetMapping("/listar-contactos")
     public List<Contacto> getContactos() {
         return contactoService.listarContactos();
@@ -93,16 +127,6 @@ public class ApiController {
     @GetMapping("/listar-menus")
     public List<Menu> getMenus() {
         return menuService.listarMenus();
-    }
-
-//    @PostMapping("/crear-pedido")
-//    public void crearPedido(List<String> listaId, String idContacto) {
-//        pedidoService.crearPedido(menuService.listarMenusPorId(listaId), contactoService.buscarPorId(idContacto));
-//    }
-    @PostMapping("/crear-pedido")
-    public void crearPedido(List<Menu> menus, @RequestBody Contacto contacto) {
-        pedidoService.crearPedido(menus, contacto);
-        actualizarStock();
     }
 
     @GetMapping("/listar-pedidos")
@@ -115,38 +139,18 @@ public class ApiController {
         return ingredienteService.listarIngredientesEnStock();
     }
 
+    //ACTUALIZAR DISPONIBILIDAD DE MENUS --------------------------
     @GetMapping("/actualizar-disponibilidad")
     public void actualizarStock() {
         menuService.actualizarDisponibilidad();
     }
-    
-    //--------------------------------------------------------------------------
-    
-    // ESTADOS DEL PEDIDO
-    @GetMapping("/en-progreso")
-    public void establecerEnProgreso(@RequestBody Pedido pedido) {
-        pedidoService.establecerEnProgreso(pedido);
+
+    //BUSCAR USUARIO     
+    @GetMapping("/buscar-ususario/{username}")
+    public Usuario eliminarUsuario(@PathVariable("username") String username) {
+        return usuarioService.buscarUsuario(username);
     }
 
-    @GetMapping("/entregado")
-    public void establecerEntregado(@RequestBody Pedido pedido) {
-        pedidoService.establecerEntregado(pedido);
-    }
-
-    @GetMapping("/cancelado")
-    public void establecerCancelado(@RequestBody Pedido pedido) {
-        pedidoService.establecerCancelado(pedido);
-    }
-
-    @GetMapping("/listo-para-entrega")
-    public void listoParaEntregar(@RequestBody Pedido pedido) {
-        pedidoService.establecerListoParaEntregar(pedido);
-    }
-
-    
-    //--------------------------------------------------------------------------
-    
-    
     // IMPRESION DE REPORTES
     @GetMapping("/descargar-reporte")
     public ResponseEntity<byte[]> descargarReporte() {

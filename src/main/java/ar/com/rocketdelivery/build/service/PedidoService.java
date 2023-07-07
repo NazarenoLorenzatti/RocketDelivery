@@ -49,7 +49,11 @@ public class PedidoService {
     }
 
     public Long crearPedido(List<Menu> menus, Contacto contacto) {
-        Pedido p = pedidoDao.save(new Pedido(estadoDao.findById(Long.valueOf(1)).get(), menus, contacto)); // CREA UN NUEVO PEDIDO CON ESTADO "NUEVO"
+       List<Menu> m = new ArrayList();
+       for(Menu maux : menus){
+           m.add(menuDao.findById(maux.getIdMenu()).get());
+       }
+        Pedido p = pedidoDao.save(new Pedido(estadoDao.findById(Long.valueOf(1)).get(), m, contacto)); // CREA UN NUEVO PEDIDO CON ESTADO "NUEVO"
         return p.getIdPedido();
     }
 

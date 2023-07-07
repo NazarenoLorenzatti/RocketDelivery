@@ -21,22 +21,8 @@ public class UsuarioController {
     @Autowired
     private ContactoService contactoService;
 
-
-//    @PostMapping("/guardar-usuario")
-//    public String crearUsuario(@RequestBody Usuario usuario) throws Exception {
-//        return usuarioService.crearUsuario(usuario.getUsername(), usuario.getPassword());
-//    }
     @PostMapping("/guardar-usuario")
     public String crearUsuario(@RequestBody Usuario usuario) throws Exception {
         return usuarioService.crearUsuario(usuario);
     }
-
-    @PostMapping("/crearContacto")
-    public void crearContacto(Contacto contacto, Usuario usuario) throws Exception {
-        contactoService.crearContacto(contacto.getNombre(), contacto.getApellido(), contacto.getEmail(),
-                contacto.getTelefono(), contacto.getDireccion(), usuario);
-    }
-
-
-
 }
