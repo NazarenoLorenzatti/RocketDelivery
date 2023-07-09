@@ -1,28 +1,36 @@
 package ar.com.rocketdelivery.build.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 //import org.apache.poi.ss.usermodel.*;
 //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 //import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.ByteArrayOutputStream;
-
-import ar.com.rocketdelivery.build.domain.inventario.*;
-import ar.com.rocketdelivery.build.domain.reportes.*;
+import ar.com.rocketdelivery.build.domain.inventario.IngredienteStock;
+import ar.com.rocketdelivery.build.domain.inventario.Menu;
+import ar.com.rocketdelivery.build.domain.reportes.Contacto;
+import ar.com.rocketdelivery.build.domain.reportes.Pedido;
 import ar.com.rocketdelivery.build.domain.usuario.Usuario;
-import ar.com.rocketdelivery.build.service.*;
-import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import ar.com.rocketdelivery.build.service.ContactoService;
+import ar.com.rocketdelivery.build.service.IngredienteService;
+import ar.com.rocketdelivery.build.service.MenuService;
+import ar.com.rocketdelivery.build.service.PedidoService;
+import ar.com.rocketdelivery.build.service.UsuarioService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
 public class ApiController {
 
     // -------------------------------- SERVICIOS ----------------------------------------//
