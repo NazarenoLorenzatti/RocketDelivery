@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `rocketdelivery` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `rocketdelivery` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `rocketdelivery`;
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
@@ -145,11 +145,11 @@ CREATE TABLE `menus` (
   `nombre_menu` varchar(45) NOT NULL,
   `descripcion_menu` varchar(256) DEFAULT NULL,
   `precio` double DEFAULT NULL,
-  `imagen_menu` varchar(68) DEFAULT NULL,
+  `imagen_menu` varchar(255) DEFAULT NULL,
   `disponible` tinyint DEFAULT NULL,
   PRIMARY KEY (`id_menu`),
   UNIQUE KEY `nombre_menu_UNIQUE` (`nombre_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +158,7 @@ CREATE TABLE `menus` (
 
 LOCK TABLES `menus` WRITE;
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
-INSERT INTO `menus` VALUES (10,'Papas Fritas','Papas rusticas',500,'Link a la imagen del menu papas fritas',1),(11,'Ã‘oquis','Ã±oquis de papa',1000,'Link a la imagen del menu papas fritas',0);
+INSERT INTO `menus` VALUES (10,'Papas Fritas','Papas rusticas',1500,'https://lh3.googleusercontent.com/drive-viewer/AITFw-xCXi1AnR2-gzJjJUfXarqNlt7HiGDRh6yPgkt6VbzylPqqLMUPWnoshAkGHJXgKFbFtDZCheHT_C1qmJZwXrOBTjssog=s1600',1),(11,'Sorrentinos','Sorrentinos',4000,'https://lh3.googleusercontent.com/drive-viewer/AITFw-zqYYlfaYarRjX5gZezywZI3JStDpmL7E-EBpNgG30apXBjBsI-nSjzb5wAKWzJpHf5FPDVagQ7PdEcc08blpcCT_YvuA=s2560',1),(12,'Agua','Agua',300,'https://lh3.googleusercontent.com/drive-viewer/AITFw-w6veYHwJSHeYg5k419glpL9UlVkyr_FYc54sqySYFNiabPocSKNCQCzm9I-2MldMU1nifjp_q72pqHyyfaK9lhBJbzdw=s1600',1),(13,'Coca cola','Coca cola',500,'https://lh3.googleusercontent.com/drive-viewer/AITFw-ynD-Vbtmjsp5NputsS0SCnvR_9eSfX66v5jFr8mq1VhACX2gwjkY_KKIgmQ-RXnepgSNPrHD-EyiDjQ2jT9vggKNeuYQ=s2560',1),(14,'Tallarines','Tallarines',3000,'https://lh3.googleusercontent.com/drive-viewer/AITFw-xbYkMtKu-rCjwB9S9rmX5rnm-WS7zGToSTSgnKMwTzjQxSVOvJIAIH5OBPIlNlsEGxHzGQRXX1cjAMXmzzUdg3_VYWMg=s2560',1),(15,'Sprite','Sprite',500,'https://lh3.googleusercontent.com/drive-viewer/AITFw-w6vNM9I-jSLeWQcB8RtvIcuDFM75xkBOUc-PI-FBCzvqPxaxqd0gXQ11qrpZTMvXtJU6Ckyau-bH2153a1cIRCvqWpcA=s2560',1),(16,'Pomelo','Pomelo',500,'https://lh3.googleusercontent.com/drive-viewer/AITFw-zAV89nV7TM7Jdnt7MyxJLSPzqT9Q1UIN5JMs7n8A2lAq8KUhOHfu7BjGpwUH6SDdMaq4OpPaX-epmEEiBgISGNceuX=s2560',1),(17,'Canelones','Canelones',3000,'https://lh3.googleusercontent.com/drive-viewer/AITFw-wJXF4GAULrUiJfhReIXeVQqJ9ieZaAps4CbZ6Z4_BUJeIBBlqcBn3S28r1Dm9PuoA6i9i7iOKE3E_Uq9uNKmG9XCHPrw=s2560',1);
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'admin','$2a$10$oceLRZfh4o3hsqlOXzQyR.WOkQ/6AOOVZ7Lt8/7oYfckWtQ0LdFSC'),(2,'user','123'),(3,'creadorporpostman','123'),(4,'adminRest','123'),(5,'du','$2a$10$oceLRZfh4o3hsqlOXzQyR.WOkQ/6AOOVZ7Lt8/7oYfckWtQ0LdFSC');
+INSERT INTO `usuario` VALUES (1,'admin','$2a$10$oceLRZfh4o3hsqlOXzQyR.WOkQ/6AOOVZ7Lt8/7oYfckWtQ0LdFSC'),(2,'user','123'),(3,'creadorporpostman','123'),(4,'adminRest','123'),(5,'esba','$2a$10$oceLRZfh4o3hsqlOXzQyR.WOkQ/6AOOVZ7Lt8/7oYfckWtQ0LdFSC');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -281,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-09  1:38:12
+-- Dump completed on 2023-07-10  0:05:49
