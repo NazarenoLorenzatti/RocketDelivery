@@ -26,9 +26,14 @@ public class Usuario implements Serializable, UserDetails {
     @NotEmpty
     private String password;
 
-    @OneToMany
-    @JoinColumn(name = "usuario_id_usuario")
+   @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "usuario_has_rol",
+            joinColumns = @JoinColumn(name = "usuario_id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id_rol")
+    )
     private List<Rol> roles;
+
 
     public Usuario(String username, String password, List<Rol> roles) {
         this.username = username;
