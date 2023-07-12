@@ -127,6 +127,13 @@ public class ApiController {
     //--------------------------------------------------------------------------
 
     // ENPOINTS PARA LISTAR 
+
+    @GetMapping("/listar-usuarios")
+    public List<Usuario> getUsuarios() {
+        return usuarioService.listaUsuarios();
+    }
+
+    
     @GetMapping("/listar-contactos")
     public List<Contacto> getContactos() {
         return contactoService.listarContactos();
