@@ -22,7 +22,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Autowired
     private iUsuarioDao usuarioDao;
 
-    @Override
+   @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioDao.findByUsername(username);
@@ -31,7 +31,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Rol rol : usuario.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(rol.getNombre_rol()));
+            authorities.add(new SimpleGrantedAuthority(rol.getNombreRol()));
         }
         return new org.springframework.security.core.userdetails.User(
             usuario.getUsername(), usuario.getPassword(), authorities);
