@@ -26,6 +26,11 @@ public class UsuarioService {
         return usuarioDao.findByUsername(username);
     }
 
+    public List<Usuario> listaUsuarios(){
+        return usuarioDao.findAll();
+    }
+
+
     public String crearUsuario(Usuario usuario) {
         if (usuarioDao.existsByUsername(usuario.getUsername())) {
             return "EL USUARIO YA EXISTE";
