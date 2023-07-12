@@ -48,10 +48,11 @@ public class Usuario implements Serializable, UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Authority> autoridades = new HashSet<>();
         this.roles.forEach(rol -> {
-            autoridades.add(new Authority(rol.getNombre_rol()));
+            autoridades.add(new Authority(rol.getNombreRol()));
         });
         return autoridades;
     }
+
     
       @Override
     public boolean isAccountNonExpired() {
