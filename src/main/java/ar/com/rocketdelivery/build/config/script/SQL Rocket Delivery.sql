@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `rocketdelivery` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `rocketdelivery`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: rocketdelivery
@@ -34,7 +36,7 @@ CREATE TABLE `contacto` (
   PRIMARY KEY (`id_contacto`),
   KEY `fk_contacto_usuario1_idx` (`usuario_id_usuario`),
   CONSTRAINT `fk_contacto_usuario1` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +61,7 @@ CREATE TABLE `estados` (
   `nombre_estado` varchar(45) NOT NULL,
   PRIMARY KEY (`id_estado`),
   UNIQUE KEY `nombre_estado_UNIQUE` (`nombre_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +91,7 @@ CREATE TABLE `ingredientes_en_menu` (
   KEY `fk_ingredientes_ingredientes1_idx` (`ingredientes_en_stock_id`),
   CONSTRAINT `fk_ingredientes_ingredientes1` FOREIGN KEY (`ingredientes_en_stock_id`) REFERENCES `ingredientes_en_stock` (`id_ingredientes_en_stock`),
   CONSTRAINT `fk_ingredientes_menus1` FOREIGN KEY (`menus_id_menu`) REFERENCES `menus` (`id_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +119,7 @@ CREATE TABLE `ingredientes_en_stock` (
   `imagen_ingrediente` varchar(160) DEFAULT NULL,
   PRIMARY KEY (`id_ingredientes_en_stock`),
   UNIQUE KEY `nombre_ingrediente_UNIQUE` (`nombre_ingrediente`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +148,7 @@ CREATE TABLE `menus` (
   `disponible` tinyint DEFAULT NULL,
   PRIMARY KEY (`id_menu`),
   UNIQUE KEY `nombre_menu_UNIQUE` (`nombre_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,7 +175,7 @@ CREATE TABLE `menus_has_pedidos` (
   KEY `fk_menus_has_pedidos_pedidos1_idx` (`pedidos_id_pedido`),
   CONSTRAINT `fk_menus_has_pedidos_menus1` FOREIGN KEY (`menus_id_menu`) REFERENCES `menus` (`id_menu`),
   CONSTRAINT `fk_menus_has_pedidos_pedidos1` FOREIGN KEY (`pedidos_id_pedido`) REFERENCES `pedidos` (`id_pedido`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +203,7 @@ CREATE TABLE `pedidos` (
   KEY `fk_pedidos_estados1_idx` (`estados_id_estado`),
   CONSTRAINT `fk_pedidos_contacto1` FOREIGN KEY (`contacto_id_contacto`) REFERENCES `contacto` (`id_contacto`),
   CONSTRAINT `fk_pedidos_estados1` FOREIGN KEY (`estados_id_estado`) REFERENCES `estados` (`id_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -225,7 +227,7 @@ CREATE TABLE `rol` (
   `id_rol` int NOT NULL AUTO_INCREMENT,
   `nombre_rol` varchar(45) NOT NULL,
   PRIMARY KEY (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -251,7 +253,7 @@ CREATE TABLE `usuario` (
   `password` varchar(128) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +281,7 @@ CREATE TABLE `usuario_has_rol` (
   KEY `fk_usuario_has_rol_usuario1_idx` (`usuario_id_usuario`),
   CONSTRAINT `fk_usuario_has_rol_rol1` FOREIGN KEY (`rol_id_rol`) REFERENCES `rol` (`id_rol`),
   CONSTRAINT `fk_usuario_has_rol_usuario1` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
