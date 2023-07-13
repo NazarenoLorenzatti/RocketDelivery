@@ -37,7 +37,7 @@ CREATE TABLE `contacto` (
   UNIQUE KEY `usuario_id_usuario_UNIQUE` (`usuario_id_usuario`),
   KEY `fk_contacto_usuario1_idx` (`usuario_id_usuario`),
   CONSTRAINT `fk_contacto_usuario1` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `estados` (
   `nombre_estado` varchar(45) NOT NULL,
   PRIMARY KEY (`id_estado`),
   UNIQUE KEY `nombre_estado_UNIQUE` (`nombre_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `ingredientes_en_menu` (
   KEY `fk_ingredientes_ingredientes1_idx` (`ingredientes_en_stock_id`),
   CONSTRAINT `fk_ingredientes_ingredientes1` FOREIGN KEY (`ingredientes_en_stock_id`) REFERENCES `ingredientes_en_stock` (`id_ingredientes_en_stock`),
   CONSTRAINT `fk_ingredientes_menus1` FOREIGN KEY (`menus_id_menu`) REFERENCES `menus` (`id_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +120,7 @@ CREATE TABLE `ingredientes_en_stock` (
   `imagen_ingrediente` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_ingredientes_en_stock`),
   UNIQUE KEY `nombre_ingrediente_UNIQUE` (`nombre_ingrediente`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `menus` (
   `disponible` tinyint DEFAULT NULL,
   PRIMARY KEY (`id_menu`),
   UNIQUE KEY `nombre_menu_UNIQUE` (`nombre_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `menus_has_pedidos` (
   KEY `fk_menus_has_pedidos_pedidos1_idx` (`pedidos_id_pedido`),
   CONSTRAINT `fk_menus_has_pedidos_menus1` FOREIGN KEY (`menus_id_menu`) REFERENCES `menus` (`id_menu`),
   CONSTRAINT `fk_menus_has_pedidos_pedidos1` FOREIGN KEY (`pedidos_id_pedido`) REFERENCES `pedidos` (`id_pedido`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `pedidos` (
   KEY `fk_pedidos_estados1_idx` (`estados_id_estado`),
   CONSTRAINT `fk_pedidos_contacto1` FOREIGN KEY (`contacto_id_contacto`) REFERENCES `contacto` (`id_contacto`),
   CONSTRAINT `fk_pedidos_estados1` FOREIGN KEY (`estados_id_estado`) REFERENCES `estados` (`id_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `rol` (
   UNIQUE KEY `nombre_rol_UNIQUE` (`nombre_rol`),
   KEY `fk_rol_usuario_idx` (`usuario_id_usuario`),
   CONSTRAINT `fk_rol_usuario` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,7 +259,7 @@ CREATE TABLE `usuario` (
   `password` varchar(128) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
