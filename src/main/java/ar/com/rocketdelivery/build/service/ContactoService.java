@@ -74,6 +74,7 @@ public class ContactoService {
             fila.add(c.getEmail());
             fila.add(c.getTelefono());
             fila.add(c.getDireccion());
+            filas.add(fila);
         }
 
         var escritorXLS = new EscritorXLS(filas, cabeceros);
