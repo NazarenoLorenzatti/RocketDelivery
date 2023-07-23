@@ -1,6 +1,7 @@
 package ar.com.rocketdelivery.build.service;
 
 import ar.com.rocketdelivery.build.Dao.*;
+import ar.com.rocketdelivery.build.domain.reportes.Contacto;
 import ar.com.rocketdelivery.build.domain.usuario.*;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,10 @@ public class UsuarioService {
     public List<Usuario> listaUsuarios(){
         return usuarioDao.findAll();
     }
-
+    
+    public List<Usuario> getUsuariosSinContacto(){
+        return usuarioDao.getUsuariosSinContacto();
+    }
 
     public String crearUsuario(Usuario usuario) {
         if (usuarioDao.existsByUsername(usuario.getUsername())) {
