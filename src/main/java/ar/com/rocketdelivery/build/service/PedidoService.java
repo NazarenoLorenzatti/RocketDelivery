@@ -33,7 +33,7 @@ public class PedidoService {
     private iIngredientesEnMenuDao ingredientesDao;
 
     public List<Pedido> listarPedidos() {
-        return pedidoDao.findAll();
+        return pedidoDao.findAllByOrderByIdPedidoDesc();
     }
 
     public List<Pedido> buscarPorEstado(Estado estado) {

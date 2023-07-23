@@ -9,4 +9,6 @@ public interface iPedidoDao extends JpaRepository<Pedido, Long> {
 
     public List<Pedido> findByEstado(Estado estado);
     
+    public List<Pedido> findAllByOrderByIdPedidoDesc();
+    
 }
