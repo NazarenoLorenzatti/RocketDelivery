@@ -60,7 +60,7 @@ public class PedidoService {
     @Transactional
     public void establecerEnProgreso(Pedido pedido) {
 
-        pedido.setEstado(estadoDao.findById(Long.valueOf(2)).get());
+        pedido.setEstado(estadoDao.findByNombreEstado("EN PROGRESO"));
 
         // Recorre La lista de menus del pedido
         for (Menu m : pedido.getMenus()) {
@@ -84,7 +84,7 @@ public class PedidoService {
     @Transactional
     public void establecerCancelado(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
-            pedido.setEstado(estadoDao.findById(Long.valueOf(6)).get());
+            pedido.setEstado(estadoDao.findByNombreEstado("CANCELADO"));
 
             // Recorre La lista de menus del pedido
             for (Menu m : pedido.getMenus()) {
@@ -103,19 +103,19 @@ public class PedidoService {
 
     public void establecerListoParaEntregar(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("CANCELADO")) {
-            pedido.setEstado(estadoDao.findById(Long.valueOf(3)).get());
+            pedido.setEstado(estadoDao.findByNombreEstado("LISTO PARA ENTREGAR"));
         }
     }
 
     public void establecerEntregado(Pedido pedido) {
         if (pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
-            pedido.setEstado(estadoDao.findById(Long.valueOf(4)).get());
+            pedido.setEstado(estadoDao.findByNombreEstado("ENTREGADO"));
         }
     }
 
     public void establecerNoEntregado(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
-            pedido.setEstado(estadoDao.findById(Long.valueOf(5)).get());
+            pedido.setEstado(estadoDao.findByNombreEstado("NO ENTREGADO"));
         }
     }
 
