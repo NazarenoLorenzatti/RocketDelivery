@@ -104,18 +104,21 @@ public class PedidoService {
     public void establecerListoParaEntregar(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("CANCELADO")) {
             pedido.setEstado(estadoDao.findByNombreEstado("LISTO PARA ENTREGAR"));
+            pedidoDao.save(pedido);
         }
     }
 
     public void establecerEntregado(Pedido pedido) {
         if (pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
             pedido.setEstado(estadoDao.findByNombreEstado("ENTREGADO"));
+            pedidoDao.save(pedido);
         }
     }
 
     public void establecerNoEntregado(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
             pedido.setEstado(estadoDao.findByNombreEstado("NO ENTREGADO"));
+            pedidoDao.save(pedido);
         }
     }
 
