@@ -31,8 +31,8 @@ public class IngredienteService {
         return ingredienteStockDao.findByNombreIngrediente(nombreIngrediente);
     }
 
-    public void eliminarIngredienteStock(IngredienteStock ingredienteStock) {
-        ingredienteStockDao.delete(ingredienteStock);
+    public void eliminarIngredienteStock(Long id) {
+        ingredienteStockDao.delete(ingredienteStockDao.findById(id).get());
     }
 
     public void crearIngredienteStock(String nombreIngrediente, String descripcion_ingrediente, String imagen_ingrediente, double cantidadStock) {
