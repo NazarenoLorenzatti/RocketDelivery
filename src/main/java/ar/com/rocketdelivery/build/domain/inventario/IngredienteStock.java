@@ -14,9 +14,8 @@ public class IngredienteStock implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id_ingredientes_en_stock")
+    @Column(name = "id_ingredientes_en_stock")
     private Long idIngredienteStock;
-
 
     @Column(name = "cantidad_stock")
     private double cantidadStock;
@@ -39,9 +38,8 @@ public class IngredienteStock implements Serializable {
         this.imagenIngrediente = imagenIngrediente;
     }
 
-
-
     public IngredienteStock() {
     }
 
 }
+
