@@ -13,11 +13,14 @@ import ar.com.rocketdelivery.build.Dao.*;
 public class MenuService {
 
     @Autowired
+    private iIngredientesEnMenuDao ingredienteEnMenuDao;
+
+    @Autowired
     private iMenuDao menuDao;
 
     @Autowired
     private iIngredienteStockDao ingredienteStockDao;
-    
+
     @Autowired
     private IngredienteService ingredienteService;
 
@@ -27,10 +30,10 @@ public class MenuService {
     public List<Menu> listarMenus() {
         return menuDao.findAll();
     }
-    
+
     public List<Menu> listarMenusPorId(List<String> listaId) {
         List<Menu> lista = new ArrayList();
-        for (String id : listaId){
+        for (String id : listaId) {
             lista.add(menuDao.findById(Long.valueOf(id)).get());
         }
         return lista;
@@ -44,8 +47,8 @@ public class MenuService {
         return menuDao.findByIngredientesEnMenu(ingredientes);
     }
 
-    public void eliminarMenu(Menu menu) {
-        menuDao.delete(menu);
+    public void eliminarMenu(Long idMenu) {
+        menuDao.delete(menuDao.findById(idMenu).get());
     }
 
     public String crearMenu(Menu menu, List<IngredienteEnMenu> ingredientesEnMenu) {
@@ -53,11 +56,8 @@ public class MenuService {
         if (menuDao.findByNombreMenu(menu.getNombreMenu()) == null) {
             Menu m = new Menu(menu.getNombreMenu(), menu.getDescripcion_menu(), menu.getPrecio(), menu.getImagen_menu());
             m.setIngredientesEnMenu(menu.getIngredientesEnMenu());
-            
             for (IngredienteEnMenu iM : menu.getIngredientesEnMenu()) {
-
                 IngredienteStock iStock = ingredienteStockDao.findById(iM.getIngredienteEnStock().getIdIngredienteStock()).get();
-
                 if (iM.getCantidad() > iStock.getCantidadStock()) {
                     m.setDisponible(false);
                 }
@@ -71,15 +71,25 @@ public class MenuService {
 
     }
 
-    public void actualizarMenu(Menu menuId, String nombreMenu, String descripcion_menu, Double precio, List<IngredienteEnMenu> ingredientesEnMenu, String imagen_menu) {
-        Optional<Menu> m = menuDao.findById(menuId.getIdMenu());
-        Menu menu = m.get();
-        menu.setNombreMenu(nombreMenu);
-        menu.setDescripcion_menu(descripcion_menu);
-        menu.setPrecio(precio);
-        menu.setIngredientesEnMenu(ingredientesEnMenu);
-        menu.setImagen_menu(imagen_menu);
-        menuDao.save(menu);
+    public void actualizarMenu(Menu menu) {
+        Optional<Menu> m = menuDao.findById(menu.getIdMenu());
+        Menu menuActualizar = m.get();
+        menuActualizar.setNombreMenu(menu.getNombreMenu());
+        menuActualizar.setDescripcion_menu(menu.getDescripcion_menu());
+        menuActualizar.setPrecio(menu.getPrecio());
+        menuActualizar.setImagen_menu(menu.getImagen_menu());
+
+        List<IngredienteEnMenu> ingredientesViejos = menuActualizar.getIngredientesEnMenu();
+        ingredientesViejos.retainAll(menu.getIngredientesEnMenu());
+
+        for (IngredienteEnMenu iem : menu.getIngredientesEnMenu()) {
+            if (!ingredientesViejos.contains(iem)) {
+                iem.setMenu(menuActualizar);
+                ingredientesViejos.add(iem);
+            }
+        }
+        menuActualizar.setIngredientesEnMenu(ingredientesViejos);
+        menuDao.save(menuActualizar);
     }
 
     // Actualiza la disponibilidad de cada Menu de a cuerdo a los ingredientes en Stock
@@ -87,15 +97,16 @@ public class MenuService {
         List<Menu> menusCargados = menuDao.findAll();
         for (Menu m : menusCargados) {
             for (IngredienteEnMenu i : m.getIngredientesEnMenu()) {
-                if (i.getCantidad() > i.getIngredienteEnStock().getCantidadStock()) {
+                if (i.getCantidad() >= i.getIngredienteEnStock().getCantidadStock()) {
                     m.setDisponible(false);
                     menuDao.save(m);
                     break;
                 }
-                if (i.getCantidad() < i.getIngredienteEnStock().getCantidadStock()) {
+                if (i.getCantidad() <= i.getIngredienteEnStock().getCantidadStock()) {
                     m.setDisponible(true);
                 }
             }
+            menuDao.save(m);
         }
     }
 
