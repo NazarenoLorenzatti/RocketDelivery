@@ -1,5 +1,6 @@
 package ar.com.rocketdelivery.build.domain.inventario;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import lombok.Data;
@@ -13,16 +14,21 @@ public class IngredienteEnMenu implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id_ingrediente_menu")
+    @Column(name = "id_ingrediente_menu")
     private Long idIngrediente;
-
+    
     @OneToOne
     @JoinColumn(name = "ingredientes_en_stock_id")
     private IngredienteStock ingredienteEnStock;
+    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "menus_id_menu")
+    private Menu menu;
 
     private double cantidad;
 
     public IngredienteEnMenu() {
     }
-    
+
 }
