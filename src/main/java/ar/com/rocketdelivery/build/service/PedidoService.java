@@ -9,7 +9,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 import lombok.Data;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class PedidoService {
     private iIngredientesEnMenuDao ingredientesDao;
 
     public List<Pedido> listarPedidos() {
-        return pedidoDao.findAllByOrderByIdPedidoDesc();
+        return pedidoDao.findAll();
     }
 
     public List<Pedido> buscarPorEstado(Estado estado) {
@@ -49,48 +48,42 @@ public class PedidoService {
     }
 
     public Long crearPedido(List<Menu> menus, Contacto contacto) {
-       List<Menu> m = new ArrayList();
-       for(Menu maux : menus){
-           m.add(menuDao.findById(maux.getIdMenu()).get());
-       }
-        Pedido p = pedidoDao.save(new Pedido(estadoDao.findByNombreEstado("Nuevo"), m, contacto)); // CREA UN NUEVO PEDIDO CON ESTADO "NUEVO"
-        return p.getIdPedido();
-    }
-
-    @Transactional
-    public void establecerEnProgreso(Pedido pedido) {
-
-        pedido.setEstado(estadoDao.findByNombreEstado("EN PROGRESO"));
-
+        List<Menu> m = new ArrayList();
+        for (Menu maux : menus) {
+            m.add(menuDao.findById(maux.getIdMenu()).get());
+        }
+        Pedido p = pedidoDao.save(new Pedido(estadoDao.findById(Long.valueOf(1)).get(), m, contacto)); // CREA UN NUEVO PEDIDO CON ESTADO "NUEVO"
         // Recorre La lista de menus del pedido
-        for (Menu m : pedido.getMenus()) {
-            List<IngredienteEnMenu> ingredientes = m.getIngredientesEnMenu();
-
+        for (Menu menu : p.getMenus()) {
+            List<IngredienteEnMenu> ingredientes = menu.getIngredientesEnMenu();
             // Por cada Menu Recorre el ingrediente y resta la cantidad al stock
             for (IngredienteEnMenu iM : ingredientes) {
-
                 IngredienteStock iStock = stockDao.findByNombreIngrediente(iM.getIngredienteEnStock().getNombreIngrediente());
-
                 if (iM.getCantidad() < iStock.getCantidadStock()) {
                     iStock.setCantidadStock(iStock.getCantidadStock() - iM.getCantidad());
                     stockDao.save(iStock);
                 }
             }
         }
-        pedidoDao.save(pedido);
+        return p.getIdPedido();
+    }
 
+    @Transactional
+    public void establecerEnProgreso(Pedido pedido) {
+        pedido.setEstado(estadoDao.findById(Long.valueOf(2)).get());
+        pedidoDao.save(pedido);
     }
 
     @Transactional
     public void establecerCancelado(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
-            pedido.setEstado(estadoDao.findByNombreEstado("CANCELADO"));
+            pedido.setEstado(estadoDao.findById(Long.valueOf(6)).get());
 
             // Recorre La lista de menus del pedido
             for (Menu m : pedido.getMenus()) {
                 List<IngredienteEnMenu> ingredientes = m.getIngredientesEnMenu();
 
-                // Por cada Menu Recorre el ingrediente y resta la cantidad al stock
+                // Por cada Menu Recorre el ingrediente y vuelve a sumar la cantidad al stock 
                 for (IngredienteEnMenu iM : ingredientes) {
                     IngredienteStock iStock = stockDao.findByNombreIngrediente(iM.getIngredienteEnStock().getNombreIngrediente());
                     iStock.setCantidadStock(iStock.getCantidadStock() + iM.getCantidad());
@@ -103,22 +96,19 @@ public class PedidoService {
 
     public void establecerListoParaEntregar(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("CANCELADO")) {
-            pedido.setEstado(estadoDao.findByNombreEstado("LISTO PARA ENTREGAR"));
-            pedidoDao.save(pedido);
+            pedido.setEstado(estadoDao.findById(Long.valueOf(3)).get());
         }
     }
 
     public void establecerEntregado(Pedido pedido) {
         if (pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
-            pedido.setEstado(estadoDao.findByNombreEstado("ENTREGADO"));
-            pedidoDao.save(pedido);
+            pedido.setEstado(estadoDao.findById(Long.valueOf(4)).get());
         }
     }
 
     public void establecerNoEntregado(Pedido pedido) {
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
-            pedido.setEstado(estadoDao.findByNombreEstado("NO ENTREGADO"));
-            pedidoDao.save(pedido);
+            pedido.setEstado(estadoDao.findById(Long.valueOf(5)).get());
         }
     }
 
@@ -138,13 +128,11 @@ public class PedidoService {
             for (Menu m : p.getMenus()) {
                 monto += m.getPrecio();
             }
-
             fila.add(String.valueOf(monto));
 
             for (Menu m : p.getMenus()) {
                 fila.add(m.getNombreMenu());
             }
-
             filas.add(fila);
         }
 
@@ -159,3 +147,4 @@ public class PedidoService {
         return outputStream;
     }
 }
+
