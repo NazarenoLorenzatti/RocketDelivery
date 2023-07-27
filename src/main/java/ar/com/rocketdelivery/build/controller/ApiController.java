@@ -84,6 +84,11 @@ public class ApiController {
     public void establecerEnProgreso(@PathVariable("id") Long id) {
         pedidoService.establecerEnProgreso(id);
     }
+    
+    @GetMapping("/listo-para-entrega/{id}")
+    public void listoParaEntregar(@PathVariable("id") Long id) {
+        pedidoService.establecerListoParaEntregar(id);
+    }
 
     @GetMapping("/entregado/{id}")
     public void establecerEntregado(@PathVariable("id") Long id) {
@@ -94,11 +99,6 @@ public class ApiController {
     public void establecerCancelado(@PathVariable("id") Long id) {
         pedidoService.establecerCancelado(id);
         actualizarDisponibilidad();
-    }
-
-    @GetMapping("/listo-para-entrega/{id}")
-    public void listoParaEntregar(@PathVariable("id") Long id) {
-        pedidoService.establecerListoParaEntregar(id);
     }
 
     //--------------------------------------------------------------------------

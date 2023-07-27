@@ -32,7 +32,7 @@ public class PedidoService {
     private iIngredientesEnMenuDao ingredientesDao;
 
     public List<Pedido> listarPedidos() {
-        return pedidoDao.findAll();
+        return pedidoDao.findAllByOrderByIdPedidoDesc();
     }
 
     public List<Pedido> buscarPorEstado(Estado estado) {
@@ -101,6 +101,7 @@ public class PedidoService {
         Pedido pedido = pedidoDao.findById(id).get();
         if (!pedido.getEstado().getNombreEstado().equals("CANCELADO")) {
             pedido.setEstado(estadoDao.findByNombreEstado("LISTO PARA ENTREGAR"));
+            pedidoDao.save(pedido);
         }
     }
 
@@ -108,6 +109,7 @@ public class PedidoService {
         Pedido pedido = pedidoDao.findById(id).get();
         if (pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
             pedido.setEstado(estadoDao.findByNombreEstado("ENTREGADO"));
+            pedidoDao.save(pedido);
         }
     }
 
@@ -115,6 +117,7 @@ public class PedidoService {
         Pedido pedido = pedidoDao.findById(id).get();
         if (!pedido.getEstado().getNombreEstado().equals("LISTO PARA ENTREGAR")) {
             pedido.setEstado(estadoDao.findByNombreEstado("NO ENTREGADO"));
+            pedidoDao.save(pedido);
         }
     }
 
