@@ -38,19 +38,19 @@ public class ApiController {
         ingredienteService.crearIngredienteStock(ingredienteEnStock.getNombreIngrediente(),
                 ingredienteEnStock.getDescripcionIngrediente(), ingredienteEnStock.getImagenIngrediente(),
                 ingredienteEnStock.getCantidadStock());
-        actualizarStock();
+        actualizarDisponibilidad();
     }
 
     @PostMapping("/crear-menu")
     public void crearMenu(@RequestBody Menu menu) {
         menuService.crearMenu(menu, menu.getIngredientesEnMenu());
-        actualizarStock();
+        actualizarDisponibilidad();
     }
 
     @PostMapping("/crear-pedido")
     public void crearPedido(@RequestBody Pedido pedido) {
         pedidoService.crearPedido(pedido.getMenus(), contactoService.buscarPorId(pedido.getContacto().getIdContacto()));
-        actualizarStock();
+        actualizarDisponibilidad();
     }
 
     // ENDPOINTS PARA EDITAR 
@@ -59,7 +59,7 @@ public class ApiController {
         ingredienteService.actualizarIngredienteStock(ingredienteEnStock.getIdIngredienteStock(),
                 ingredienteEnStock.getNombreIngrediente(), ingredienteEnStock.getDescripcionIngrediente(),
                 ingredienteEnStock.getImagenIngrediente());
-        actualizarStock();
+        actualizarDisponibilidad();
     }
 
     @PostMapping("/editar-contacto")
@@ -80,24 +80,25 @@ public class ApiController {
 
     //--------------------------------------------------------------------------
     // ESTADOS DEL PEDIDO
-    @PutMapping("/en-progreso")
-    public void establecerEnProgreso(@RequestBody Pedido pedido) {
-        pedidoService.establecerEnProgreso(pedido);
+    @GetMapping("/en-progreso/{id}")
+    public void establecerEnProgreso(@PathVariable("id") Long id) {
+        pedidoService.establecerEnProgreso(id);
     }
 
-    @PutMapping("/entregado")
-    public void establecerEntregado(@RequestBody Pedido pedido) {
-        pedidoService.establecerEntregado(pedido);
+    @GetMapping("/entregado/{id}")
+    public void establecerEntregado(@PathVariable("id") Long id) {
+        pedidoService.establecerEntregado(id);
     }
 
-    @PutMapping("/cancelado")
-    public void establecerCancelado(@RequestBody Pedido pedido) {
-        pedidoService.establecerCancelado(pedido);
+    @GetMapping("/cancelado/{id}")
+    public void establecerCancelado(@PathVariable("id") Long id) {
+        pedidoService.establecerCancelado(id);
+        actualizarDisponibilidad();
     }
 
-    @PutMapping("/listo-para-entrega")
-    public void listoParaEntregar(@RequestBody Pedido pedido) {
-        pedidoService.establecerListoParaEntregar(pedido);
+    @GetMapping("/listo-para-entrega/{id}")
+    public void listoParaEntregar(@PathVariable("id") Long id) {
+        pedidoService.establecerListoParaEntregar(id);
     }
 
     //--------------------------------------------------------------------------
@@ -129,7 +130,7 @@ public class ApiController {
 
     //ACTUALIZAR DISPONIBILIDAD DE MENUS --------------------------
     @GetMapping("/actualizar-disponibilidad")
-    public void actualizarStock() {
+    public void actualizarDisponibilidad() {
         menuService.actualizarDisponibilidad();
     }
 
@@ -159,7 +160,7 @@ public class ApiController {
     @PutMapping("/editar-menu")
     public void editarMenu(@RequestBody Menu menu) {
         menuService.actualizarMenu(menu);
-        actualizarStock();
+        actualizarDisponibilidad();
     }
 
     //ELIMINAR INGREDIENTE
@@ -196,3 +197,4 @@ public class ApiController {
     }
 
 }
+
