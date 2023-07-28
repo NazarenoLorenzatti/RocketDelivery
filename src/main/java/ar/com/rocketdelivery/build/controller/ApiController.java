@@ -196,5 +196,18 @@ public class ApiController {
                 .body(outputStream.toByteArray());
     }
 
+        // FILTRAR PEDIDO POR ESTADO    
+    @GetMapping("/filtrar-por/{estado}")
+     public List<Pedido> buscarPorEstado(@PathVariable("estado") String estado){
+         return pedidoService.buscarPorEstado(estado);
+     }
+     
+     // ARCHIVAR PEDIDO
+     @GetMapping("/archivar-pedido/{id}")
+     public void archivarPedido(@PathVariable("id") Long id){
+         pedidoService.archivarPedido(id);
+     }
+
+
 }
 
