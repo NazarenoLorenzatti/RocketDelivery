@@ -1,5 +1,7 @@
 package ar.com.rocketdelivery.build.domain.inventario;
 
+import ar.com.rocketdelivery.build.domain.reportes.Pedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,10 +35,13 @@ public class Menu implements Serializable {
 
     private boolean disponible;
 
-    @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "menus")
+    private List<Pedido> pedidos;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "menus_id_menu")
     private List<IngredienteEnMenu> ingredientesEnMenu = new ArrayList();
-
 
     public Menu() {
     }
@@ -47,7 +52,9 @@ public class Menu implements Serializable {
         this.precio = precio;
         this.imagen_menu = imagen_menu;
         this.disponible = true;
+
     }
 
 }
+
 
