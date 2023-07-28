@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ar.com.rocketdelivery.build.Dao.*;
+import ar.com.rocketdelivery.build.domain.reportes.Pedido;
 
 @Service
 @Data
@@ -26,6 +27,9 @@ public class MenuService {
 
     @Autowired
     private iIngredientesEnMenuDao ingredientesDao;
+
+    @Autowired
+    private iPedidoDao pedidoDao;
 
     public List<Menu> listarMenus() {
         return menuDao.findAll();
@@ -47,8 +51,26 @@ public class MenuService {
         return menuDao.findByIngredientesEnMenu(ingredientes);
     }
 
-    public void eliminarMenu(Long idMenu) {
-        menuDao.delete(menuDao.findById(idMenu).get());
+    public String eliminarMenu(Long idMenu) {
+        boolean eliminar = false;
+        Menu m = menuDao.findById(idMenu).get();
+        for (Pedido p : m.getPedidos()) {
+            if (p.getEstado().getNombreEstado().equals("CANCELADO")
+                    || p.getEstado().getNombreEstado().equals("ENTREGADO")
+                    || p.getEstado().getNombreEstado().equals("NO ENTREGADO")) {
+
+                eliminar = true;
+            } else {
+                eliminar = false;
+                break;
+            }
+        }
+        if(eliminar){
+            menuDao.delete(m);
+            return "Menu " + m.getNombreMenu() + " eliminado con Exito";
+        }else{
+            return "No se puede eliminar el menu " + m.getNombreMenu() + " ya que esta asociado a un pedido en vigencia";
+        }
     }
 
     public String crearMenu(Menu menu, List<IngredienteEnMenu> ingredientesEnMenu) {
