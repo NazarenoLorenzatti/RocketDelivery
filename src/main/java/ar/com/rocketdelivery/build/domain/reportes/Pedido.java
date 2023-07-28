@@ -19,6 +19,9 @@ public class Pedido implements Serializable {
     @Column(name = "id_pedido")
     private Long idPedido;
 
+    @Column(name = "archivado")
+    private boolean archivado;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "menus_has_pedidos",
@@ -26,8 +29,7 @@ public class Pedido implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "menus_id_menu")
     )
     private List<Menu> menus = new ArrayList();
-        
-    
+
     @ManyToOne
     @JoinColumn(name = "contacto_id_contacto")
     private Contacto contacto;
@@ -40,11 +42,10 @@ public class Pedido implements Serializable {
         this.menus = menus;
         this.estado = estado;
         this.contacto = contacto;
+        this.archivado = false;
     }
 
     public Pedido() {
     }
-    
-    
 
 }
