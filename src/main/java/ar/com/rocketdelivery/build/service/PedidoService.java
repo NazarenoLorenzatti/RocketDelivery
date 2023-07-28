@@ -43,8 +43,10 @@ public class PedidoService {
         return pedidoDao.findById(id).get();
     }
 
-    public void eliminarPedido(Pedido pedido) {
-        pedidoDao.delete(pedido);
+    public void archivarPedido(Long idPedido) {
+        Pedido p = pedidoDao.findById(idPedido).get();
+        p.setArchivado(true);
+        pedidoDao.save(p);
     }
 
     public Long crearPedido(List<Menu> menus, Contacto contacto) {
