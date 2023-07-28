@@ -35,8 +35,8 @@ public class PedidoService {
         return pedidoDao.findAllByOrderByIdPedidoDesc();
     }
 
-    public List<Pedido> buscarPorEstado(Estado estado) {
-        return pedidoDao.findByEstado(estado);
+    public List<Pedido> buscarPorEstado(String estado) {
+        return pedidoDao.findByEstado(estadoDao.findByNombreEstado(estado));
     }
 
     public Pedido buscarPorId(long id) {
