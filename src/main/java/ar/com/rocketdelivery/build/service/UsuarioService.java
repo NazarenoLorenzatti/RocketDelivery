@@ -49,8 +49,7 @@ public class UsuarioService {
 			List<Rol> roles = new ArrayList();
 			roles.add(rolesDao.findByNombreRol("ROLE_USER"));
 
-			usuarioDao.save(new Usuario(usuario.getUsername(), encriptarPassword(usuario.getPassword()), roles));
-			return "USUARIO CREADO";
+			return usuarioDao.save(new Usuario(usuario.getUsername(), encriptarPassword(usuario.getPassword()), roles)).getIdUsuario().toString();
 		}
 
 	}
