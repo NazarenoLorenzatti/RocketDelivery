@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import ar.com.rocketdelivery.build.Dao.iRolesDao;
 import ar.com.rocketdelivery.build.Dao.iUsuarioDao;
@@ -42,17 +45,15 @@ public class UsuarioService {
 		return usuarioDao.getUsuariosSinContacto();
 	}
 
-	public String crearUsuario(Usuario usuario) {
+	public Usuario crearUsuario(Usuario usuario) {
 		if (usuarioDao.existsByUsername(usuario.getUsername())) {
-			return "EL USUARIO YA EXISTE";
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "EL USUARIO YA EXISTE");
 		} else {
 			List<Rol> roles = new ArrayList();
 			roles.add(rolesDao.findByNombreRol("ROLE_USER"));
 
-			usuarioDao.save(new Usuario(usuario.getUsername(), encriptarPassword(usuario.getPassword()), roles));
-			return "USUARIO CREADO";
+			return usuarioDao.save(new Usuario(usuario.getUsername(), encriptarPassword(usuario.getPassword()), roles));
 		}
-
 	}
 
 	public String crearUsuario(String username, String password) {
