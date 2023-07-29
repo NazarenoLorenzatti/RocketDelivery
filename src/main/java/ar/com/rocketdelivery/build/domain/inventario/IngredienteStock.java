@@ -1,8 +1,15 @@
 package ar.com.rocketdelivery.build.domain.inventario;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
@@ -10,36 +17,36 @@ import lombok.Data;
 @Table(name = "ingredientes_en_stock")
 public class IngredienteStock implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ingredientes_en_stock")
-    private Long idIngredienteStock;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_ingredientes_en_stock")
+	private Long idIngredienteStock;
 
-    @Column(name = "cantidad_stock")
-    private double cantidadStock;
+	@Column(name = "cantidad_stock")
+	private double cantidadStock;
 
-    @NotEmpty
-    @Column(name = "nombre_ingrediente")
-    private String nombreIngrediente;
+	@NotEmpty
+	@Column(name = "nombre_ingrediente")
+	private String nombreIngrediente;
 
-    @NotEmpty
-    @Column(name = "descripcion_ingrediente")
-    private String descripcionIngrediente;
+	@NotEmpty
+	@Column(name = "descripcion_ingrediente")
+	private String descripcionIngrediente;
 
-    @Column(name = "imagen_ingrediente")
-    private String imagenIngrediente;
+	@Column(name = "imagen_ingrediente")
+	private String imagenIngrediente;
 
-    public IngredienteStock(double cantidadStock, String nombreIngrediente, String descripcion_ingrediente, String imagenIngrediente) {
-        this.cantidadStock = cantidadStock;
-        this.nombreIngrediente = nombreIngrediente;
-        this.descripcionIngrediente = descripcion_ingrediente;
-        this.imagenIngrediente = imagenIngrediente;
-    }
+	public IngredienteStock(double cantidadStock, String nombreIngrediente, String descripcion_ingrediente,
+			String imagenIngrediente) {
+		this.cantidadStock = cantidadStock;
+		this.nombreIngrediente = nombreIngrediente;
+		this.descripcionIngrediente = descripcion_ingrediente;
+		this.imagenIngrediente = imagenIngrediente;
+	}
 
-    public IngredienteStock() {
-    }
+	public IngredienteStock() {
+	}
 
 }
-

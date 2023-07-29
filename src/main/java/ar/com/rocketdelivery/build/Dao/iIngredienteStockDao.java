@@ -1,12 +1,13 @@
 package ar.com.rocketdelivery.build.Dao;
 
-import ar.com.rocketdelivery.build.domain.inventario.IngredienteEnMenu;
-import ar.com.rocketdelivery.build.domain.inventario.IngredienteStock;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import ar.com.rocketdelivery.build.domain.inventario.IngredienteStock;
+
 public interface iIngredienteStockDao extends JpaRepository<IngredienteStock, Long> {
-    
-//    public IngredienteStock findByIngrediente(IngredienteEnMenu ingrediente);
-    
-    public IngredienteStock findByNombreIngrediente(String nombreIngrediente);
+
+	public IngredienteStock findByidIngredienteStock(Long idIngredienteStock);
+
+	public IngredienteStock findByNombreIngrediente(String nombreIngrediente);
+
 }
