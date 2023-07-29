@@ -73,7 +73,7 @@ public class ApiController {
 	}
 
 	// ENDPOINTS PARA EDITAR
-	@PostMapping("/editar-ingrediente")
+	@PutMapping("/editar-ingrediente")
 	public void editarIngrediente(@RequestBody IngredienteStock ingredienteEnStock) {
 		ingredienteService.actualizarIngredienteStock(ingredienteEnStock);
 		actualizarDisponibilidad();
