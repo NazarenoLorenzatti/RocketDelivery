@@ -61,9 +61,10 @@ public class ApiController {
 	}
 
 	@PostMapping("/crear-menu")
-	public void crearMenu(@RequestBody Menu menu) {
-		menuService.crearMenu(menu, menu.getIngredientesEnMenu());
-		actualizarDisponibilidad();
+	public String crearMenu(@RequestBody Menu menu) {
+		String result = menuService.crearMenu(menu, menu.getIngredientesEnMenu());
+//		actualizarDisponibilidad();
+		return result;
 	}
 
 	@PostMapping("/crear-pedido")

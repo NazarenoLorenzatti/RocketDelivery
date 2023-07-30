@@ -85,25 +85,26 @@ public class MenuService {
 	}
 
 	public String crearMenu(Menu menu, List<IngredienteEnMenu> ingredientesEnMenu) {
-
 		if (menuDao.findByNombreMenu(menu.getNombreMenu()) == null) {
 			Menu m = new Menu(menu.getNombreMenu(), menu.getDescripcion_menu(), menu.getPrecio(),
 					menu.getImagen_menu());
+
 			m.setIngredientesEnMenu(menu.getIngredientesEnMenu());
+
 			for (IngredienteEnMenu iM : menu.getIngredientesEnMenu()) {
 				IngredienteStock iStock = ingredienteStockDao
 						.findById(iM.getIngredienteEnStock().getIdIngredienteStock()).get();
+
 				if (iM.getCantidad() > iStock.getCantidadStock()) {
 					m.setDisponible(false);
 				}
 			}
+
 			menuDao.save(m);
-			return "MENU :" + m.getNombreMenu() + " CREADO";
+			return "MENU " + m.getNombreMenu() + " CREADO";
 		} else {
-
-			return " El MENU :" + menu.getNombreMenu() + " YA EXISTE";
+			return " El MENU " + menu.getNombreMenu() + " YA EXISTE";
 		}
-
 	}
 
 	public void actualizarMenu(Menu menu) {
