@@ -186,6 +186,11 @@ public class ApiController {
 	public ResponseEntity<IngredienteStock> findByidIngredienteStock(@PathVariable("id") Long id) {
 		return ResponseEntity.ok().body(ingredienteService.findByidIngredienteStock(id));
 	}
+	
+	@GetMapping("/menu/{id}")
+	public ResponseEntity<Menu> getMeunuById(@PathVariable("id") Long id) {
+		return ResponseEntity.ok().body(menuService.getMeunuById(id));
+	}
 
 	// ELIMINAR INGREDIENTE
 	@DeleteMapping("/eliminar-ingrediente/{id}")
