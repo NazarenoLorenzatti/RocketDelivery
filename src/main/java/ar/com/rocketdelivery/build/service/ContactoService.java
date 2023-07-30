@@ -54,14 +54,7 @@ public class ContactoService {
     }
 
     public void actualizarContacto(Contacto contacto) {
-        Optional<Contacto> cOpt = contactoDao.findById(contacto.getIdContacto());
-        Contacto c = cOpt.get();
-        contacto.setNombre(c.getNombre());
-        contacto.setApellido(c.getApellido());
-        contacto.setEmail(c.getEmail());
-        contacto.setTelefono(c.getTelefono());
-        contacto.setDireccion(c.getDireccion());
-        contactoDao.save(c);
+        contactoDao.save(contacto);
     }
 
     public ByteArrayOutputStream reporteClientes() {

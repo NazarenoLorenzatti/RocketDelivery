@@ -79,7 +79,7 @@ public class ApiController {
 		actualizarDisponibilidad();
 	}
 
-	@PostMapping("/editar-contacto")
+	@PutMapping("/editar-contacto")
 	public void editarContact(@RequestBody Contacto contacto) throws Exception {
 		contactoService.actualizarContacto(contacto);
 	}
