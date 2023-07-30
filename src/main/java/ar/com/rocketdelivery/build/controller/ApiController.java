@@ -165,8 +165,8 @@ public class ApiController {
 
 	// ELIMINAR MENU
 	@DeleteMapping("/eliminar-menu/{id}")
-	public void eliminarMenu(@PathVariable("id") Long id) {
-		menuService.eliminarMenu(id);
+	public String eliminarMenu(@PathVariable("id") Long id) {
+		return menuService.eliminarMenu(id);
 	}
 
 	@DeleteMapping("/eliminar-ususario/{usuarioId}")

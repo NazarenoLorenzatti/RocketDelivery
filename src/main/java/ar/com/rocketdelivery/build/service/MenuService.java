@@ -60,8 +60,10 @@ public class MenuService {
 	}
 
 	public String eliminarMenu(Long idMenu) {
-		boolean eliminar = false;
+		boolean eliminar = true;
+
 		Menu m = menuDao.findById(idMenu).get();
+
 		for (Pedido p : m.getPedidos()) {
 			if (p.getEstado().getNombreEstado().equals("CANCELADO")
 					|| p.getEstado().getNombreEstado().equals("ENTREGADO")
@@ -75,7 +77,7 @@ public class MenuService {
 		}
 		if (eliminar) {
 			menuDao.delete(m);
-			return "Menu " + m.getNombreMenu() + " eliminado con Exito";
+			return "Menu " + m.getNombreMenu() + " eliminado con exito!";
 		} else {
 			return "No se puede eliminar el menu " + m.getNombreMenu()
 					+ " ya que esta asociado a un pedido en vigencia";
